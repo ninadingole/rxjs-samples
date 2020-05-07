@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { allBooks } from './data';
 import { setTimeout } from 'timers';
 
@@ -55,4 +55,10 @@ let allBooksObservable2$ = new Observable(subscriber => {
     return () => console.log('teadown execution');
 });
 
-allBooksObservable2$.subscribe(book => console.log(book.title));
+// allBooksObservable2$.subscribe(book => console.log(book.title));
+
+
+// create observable using of
+
+let source1$ = of('hello', 1, 'world', 20.22, true);
+source1$.subscribe(value => console.log(value));
