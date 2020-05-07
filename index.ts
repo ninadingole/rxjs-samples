@@ -1,4 +1,4 @@
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, from, concat } from 'rxjs';
 import { allBooks } from './data';
 import { setTimeout } from 'timers';
 
@@ -64,4 +64,7 @@ let source1$ = of('hello', 1, 'world', 20.22, true);
 // source1$.subscribe(value => console.log(value));
 
 let source2$ = from(allBooks);
-source2$.subscribe(value => console.log(value));
+//source2$.subscribe(value => console.log(value));
+
+let concatSource$ = concat(source1$, source2$);
+concatSource$.subscribe(value => console.log(value));
