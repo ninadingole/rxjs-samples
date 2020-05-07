@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { allBooks } from './data';
 import { setTimeout } from 'timers';
 
@@ -61,4 +61,7 @@ let allBooksObservable2$ = new Observable(subscriber => {
 // create observable using of
 
 let source1$ = of('hello', 1, 'world', 20.22, true);
-source1$.subscribe(value => console.log(value));
+// source1$.subscribe(value => console.log(value));
+
+let source2$ = from(allBooks);
+source2$.subscribe(value => console.log(value));
