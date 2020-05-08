@@ -92,5 +92,9 @@ fromEvent(button, 'click')
         complete: () => console.log('All Done!')
     }
 
-    allBooks$.subscribe(booksObserver);
+    allBooks$.subscribe(
+        book => console.log(`Title: ${book.title}`), // this is optional can pass null
+        err => console.log(`ERROR: ${err}`), // this is optional can pass null
+        () => console.log('All Done!')
+    );
 //#endregion
