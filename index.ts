@@ -1,5 +1,5 @@
-import { Observable, of, from, concat } from 'rxjs';
-import { allBooks } from './data';
+import { Observable, of, from, concat, fromEvent } from 'rxjs';
+import { allBooks, allReaders } from './data';
 import { setTimeout } from 'timers';
 
 function subscribe(subscriber) {
@@ -67,4 +67,15 @@ let source2$ = from(allBooks);
 //source2$.subscribe(value => console.log(value));
 
 let concatSource$ = concat(source1$, source2$);
-concatSource$.subscribe(value => console.log(value));
+//concatSource$.subscribe(value => console.log(value));
+
+let button = document.getElementById('readersButton');
+fromEvent(button, 'click')
+    .subscribe(event => {
+        console.log(event);
+
+        let readersDiv = document.getElementById('readers');
+        for(let reader of allReaders) {
+            readersDiv.innerHTML += reader.name + '<br />';
+        } 
+    });
