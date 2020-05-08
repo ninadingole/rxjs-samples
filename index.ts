@@ -2,6 +2,8 @@ import { Observable, of, from, concat, fromEvent } from 'rxjs';
 import { allBooks, allReaders } from './data';
 import { setTimeout } from 'timers';
 
+//#region Creating Observables
+
 function subscribe(subscriber) {
     for (let book of allBooks) {
         subscriber.next(book);
@@ -79,3 +81,16 @@ fromEvent(button, 'click')
             readersDiv.innerHTML += reader.name + '<br />';
         } 
     });
+//#endregion
+
+//#region Subscribing to Observables with Observer
+    let allBooks$ = from(allBooks);
+
+    let booksObserver = {
+        next: book => console.log(`Title: ${book.title}`),
+        error: err => console.log(`ERROR: ${err}`),
+        complete: () => console.log('All Done!')
+    }
+
+    allBooks$.subscribe(booksObserver);
+//#endregion
