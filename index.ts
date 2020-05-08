@@ -1,4 +1,5 @@
-import { Observable, of, from, concat, fromEvent, interval } from 'rxjs';
+import { Observable, of, from, concat, fromEvent } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 import { allBooks, allReaders } from './data';
 import { setTimeout } from 'timers';
 
@@ -114,20 +115,31 @@ fromEvent(button, 'click')
         }
     })
 
-    let timerSubscription = timer$.subscribe(
-        val => timerDiv?.innerHTML += `${new Date().toLocaleTimeString()} (${val}) <br>`,
-        null,
-        () => console.log('All done!')
-    );
+    // let timerSubscription = timer$.subscribe(
+    //     val => timerDiv?.innerHTML += `${new Date().toLocaleTimeString()} (${val}) <br>`,
+    //     null,
+    //     () => console.log('All done!')
+    // );
 
-    let consoleSubscription = timer$.subscribe(
-        val => console.log(`${new Date().toLocaleTimeString()} (${val})`)
-    );
+    // let consoleSubscription = timer$.subscribe(
+    //     val => console.log(`${new Date().toLocaleTimeString()} (${val})`)
+    // );
 
-    timerSubscription.add(consoleSubscription);
+    // timerSubscription.add(consoleSubscription);
 
     fromEvent(stopTimerButton, 'click')
             .subscribe(
                 event => timerSubscription.unsubscribe()
             );
+//#endregion
+
+//#region Operators in Rx
+    let source3$ =  of(1,2,3,4,5);
+    source3$.pipe(
+        map(val => val * 2),
+        filter(val => val > 5)
+    ).subscribe(
+        finalVal => console.log(finalVal)
+    );
+
 //#endregion
