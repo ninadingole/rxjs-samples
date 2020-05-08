@@ -1,4 +1,4 @@
-import { Observable, of, from, concat, fromEvent } from 'rxjs';
+import { Observable, of, from, concat, fromEvent, interval } from 'rxjs';
 import { allBooks, allReaders } from './data';
 import { setTimeout } from 'timers';
 
@@ -97,4 +97,37 @@ fromEvent(button, 'click')
         err => console.log(`ERROR: ${err}`), // this is optional can pass null
         () => console.log('All Done!')
     );
+
+
+    let timerDiv = document.getElementById('timer');
+    let stopTimerButton = document.getElementById('clearTimer');
+
+    let timer$ = new Observable(subscriber => {
+        let count = 0;
+        let intervalId = setInterval(() => {
+            subscriber.next(count++);
+        }, 1000);
+
+        return () => {
+            console.log('Executing teardown code');
+            clearInterval(intervalId);
+        }
+    })
+
+    let timerSubscription = timer$.subscribe(
+        val => timerDiv?.innerHTML += `${new Date().toLocaleTimeString()} (${val}) <br>`,
+        null,
+        () => console.log('All done!')
+    );
+
+    let consoleSubscription = timer$.subscribe(
+        val => console.log(`${new Date().toLocaleTimeString()} (${val})`)
+    );
+
+    timerSubscription.add(consoleSubscription);
+
+    fromEvent(stopTimerButton, 'click')
+            .subscribe(
+                event => timerSubscription.unsubscribe()
+            );
 //#endregion
